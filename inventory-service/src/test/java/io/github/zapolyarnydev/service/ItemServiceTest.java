@@ -1,5 +1,7 @@
 package io.github.zapolyarnydev.service;
 
+import io.github.zapolyarnydev.entity.InventoryItemEntity;
+import io.github.zapolyarnydev.repository.InventoryRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
