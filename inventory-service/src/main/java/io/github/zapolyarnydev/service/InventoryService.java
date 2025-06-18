@@ -2,13 +2,20 @@ package io.github.zapolyarnydev.service;
 
 import io.github.zapolyarnydev.entity.InventoryItemEntity;
 import io.github.zapolyarnydev.exception.ItemHasNameException;
+import io.github.zapolyarnydev.exception.SmallItemQuantityException;
 import io.github.zapolyarnydev.repository.InventoryRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class InventoryService {
+public final class InventoryService {
 
     private final InventoryRepository repository;
 
@@ -26,5 +33,33 @@ public class InventoryService {
 
     public void removeItem(InventoryItemEntity entity){
         repository.delete(entity);
+    }
+
+    @NotNull
+    public InventoryItemEntity findEntity(UUID uuid) throws EntityNotFoundException {
+        return repository.findById(uuid)
+                .orElseThrow(() -> new EntityNotFoundException("Item with UUID: " + uuid + " not found"));
+    }
+
+    @Transactional
+    public void increaseItemQuantity(UUID uuid, int value){
+        if(value <= 0)
+            throw new IllegalArgumentException(String.format("Increase value must be positive. Passed: %d", value));
+
+        var entity = findEntity(uuid);
+        entity.setQuantity(entity.getQuantity() + value);
+        saveItem(entity);
+    }
+
+    @Transactional
+    public void decreaseItemQuantity(UUID uuid, int value){
+        if(value <= 0)
+            throw new IllegalArgumentException(String.format("Decrease value must be positive. Passed: %d", value));
+
+        var entity = findEntity(uuid);
+        int quantity = entity.getQuantity();
+        if(quantity < value) throw new SmallItemQuantityException(quantity, value);
+        entity.setQuantity(quantity - value);
+        saveItem(entity);
     }
 }
