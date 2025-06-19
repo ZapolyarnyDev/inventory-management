@@ -1,13 +1,12 @@
-package io.github.zapolyarnydev.service;
+package io.github.zapolyarnydev.invmanagement.service;
 
-import io.github.zapolyarnydev.entity.InventoryItemEntity;
-import io.github.zapolyarnydev.exception.ItemHasNameException;
-import io.github.zapolyarnydev.exception.SmallItemQuantityException;
-import io.github.zapolyarnydev.repository.InventoryRepository;
+import io.github.zapolyarnydev.invmanagement.entity.InventoryItemEntity;
+import io.github.zapolyarnydev.invmanagement.exception.ItemHasNameException;
+import io.github.zapolyarnydev.invmanagement.exception.SmallItemQuantityException;
+import io.github.zapolyarnydev.invmanagement.repository.InventoryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +14,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public final class InventoryService {
+public class InventoryService {
 
     private final InventoryRepository repository;
 

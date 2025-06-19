@@ -1,4 +1,4 @@
-package io.github.zapolyarnydev.exception;
+package io.github.zapolyarnydev.invmanagement.exception;
 
 public class SmallItemQuantityException extends RuntimeException {
     public SmallItemQuantityException(int itemAmount, int decreaseValue) {

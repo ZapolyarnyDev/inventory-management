@@ -1,6 +1,6 @@
-package io.github.zapolyarnydev.repository;
+package io.github.zapolyarnydev.invmanagement.repository;
 
-import io.github.zapolyarnydev.entity.InventoryItemEntity;
+import io.github.zapolyarnydev.invmanagement.entity.InventoryItemEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

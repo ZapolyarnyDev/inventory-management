@@ -1,4 +1,4 @@
-package io.github.zapolyarnydev.exception;
+package io.github.zapolyarnydev.invmanagement.exception;
 
 public class ItemHasNameException extends RuntimeException{
 

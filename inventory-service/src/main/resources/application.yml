@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: InventoryService
+  datasource:
+    url: ${INV_SERVICE_DATASOURCE_URL}
+    username: ${INV_SERVICE_DATASOURCE_USERNAME}
+    password: ${INV_SERVICE_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate: ddl-auto
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+
+server:
+  port: 8256
