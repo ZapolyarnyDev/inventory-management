@@ -1,4 +1,4 @@
-package io.github.zapolyarnydev.invmanagement.entity;
+package io.github.zapolyarnydev.entity;
 
 import jakarta.persistence.*;
 import lombok.*;

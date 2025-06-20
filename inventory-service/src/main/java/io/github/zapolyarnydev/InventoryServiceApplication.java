@@ -1,4 +1,4 @@
-package io.github.zapolyarnydev.invmanagement;
+package io.github.zapolyarnydev;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,7 +1,7 @@
-package io.github.zapolyarnydev.invmanagement.service;
+package io.github.zapolyarnydev.service;
 
-import io.github.zapolyarnydev.invmanagement.entity.InventoryItemEntity;
-import io.github.zapolyarnydev.invmanagement.repository.InventoryRepository;
+import io.github.zapolyarnydev.entity.InventoryItemEntity;
+import io.github.zapolyarnydev.repository.InventoryRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

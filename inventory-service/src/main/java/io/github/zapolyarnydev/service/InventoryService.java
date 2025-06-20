@@ -1,9 +1,9 @@
-package io.github.zapolyarnydev.invmanagement.service;
+package io.github.zapolyarnydev.service;
 
-import io.github.zapolyarnydev.invmanagement.entity.InventoryItemEntity;
-import io.github.zapolyarnydev.invmanagement.exception.ItemHasNameException;
-import io.github.zapolyarnydev.invmanagement.exception.SmallItemQuantityException;
-import io.github.zapolyarnydev.invmanagement.repository.InventoryRepository;
+import io.github.zapolyarnydev.entity.InventoryItemEntity;
+import io.github.zapolyarnydev.exception.ItemHasNameException;
+import io.github.zapolyarnydev.exception.SmallItemQuantityException;
+import io.github.zapolyarnydev.repository.InventoryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -35,7 +35,7 @@ public class InventoryService {
     }
 
     @NotNull
-    public InventoryItemEntity findEntity(UUID uuid) throws EntityNotFoundException {
+    public InventoryItemEntity findItemEntity(UUID uuid) throws EntityNotFoundException {
         return repository.findById(uuid)
                 .orElseThrow(() -> new EntityNotFoundException("Item with UUID: " + uuid + " not found"));
     }
@@ -45,7 +45,7 @@ public class InventoryService {
         if(value <= 0)
             throw new IllegalArgumentException(String.format("Increase value must be positive. Passed: %d", value));
 
-        var entity = findEntity(uuid);
+        var entity = findItemEntity(uuid);
         entity.setQuantity(entity.getQuantity() + value);
         saveItem(entity);
     }
@@ -55,7 +55,7 @@ public class InventoryService {
         if(value <= 0)
             throw new IllegalArgumentException(String.format("Decrease value must be positive. Passed: %d", value));
 
-        var entity = findEntity(uuid);
+        var entity = findItemEntity(uuid);
         int quantity = entity.getQuantity();
         if(quantity < value) throw new SmallItemQuantityException(quantity, value);
         entity.setQuantity(quantity - value);
