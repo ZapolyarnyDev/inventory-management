@@ -1,10 +1,10 @@
 spring:
   application:
-    name: InventoryService
+    name: OrderService
   datasource:
-    url: ${INV_SERVICE_DATASOURCE_URL}
-    username: ${INV_SERVICE_DATASOURCE_USERNAME}
-    password: ${INV_SERVICE_DATASOURCE_PASSWORD}
+    url: ${ORDER_SERVICE_DATASOURCE_URL}
+    username: ${ORDER_SERVICE_DATASOURCE_USERNAME}
+    password: ${ORDER_SERVICE_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
@@ -20,13 +20,13 @@ spring:
       acks: all
       retries: 3
     consumer:
-      group-id: inventory-group
+      group-id: order-group
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        spring.json.trusted.packages: "io.github.zapolyarnydev.event"
+        spring.json.trusted.packages: "io.github.zapolyarnydev.event.*"
 
 
 server:
-  port: 8256
+  port: 8257
