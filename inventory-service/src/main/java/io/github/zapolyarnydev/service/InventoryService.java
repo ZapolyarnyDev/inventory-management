@@ -20,12 +20,15 @@ public class InventoryService {
 
     private final InventoryRepository repository;
 
-    public void addItem(String name, int quantity) throws ItemHasNameException {
+    @Transactional
+    public InventoryItemEntity addItem(String name, int quantity) throws ItemHasNameException {
         if(repository.existsByName(name))
             throw new ItemHasNameException(String.format("Entity with name: '%s' already exists", name));
 
         var entity = new InventoryItemEntity(name, quantity);
         repository.save(entity);
+
+        return entity;
     }
 
     public void saveItem(InventoryItemEntity entity){
@@ -40,6 +43,12 @@ public class InventoryService {
     public InventoryItemEntity findItemEntity(UUID uuid) throws EntityNotFoundException {
         return repository.findById(uuid)
                 .orElseThrow(() -> new EntityNotFoundException("Item with UUID: " + uuid + " not found"));
+    }
+
+    @NotNull
+    public InventoryItemEntity findItemEntity(String name) throws EntityNotFoundException {
+        return repository.findByName(name)
+                .orElseThrow(() -> new EntityNotFoundException("Item with name: " + name + " not found"));
     }
 
     @Transactional
@@ -72,6 +81,7 @@ public class InventoryService {
         return true;
     }
 
+    @Transactional
     public void reserveItems(List<OrderItemEventDTO> orderItems) {
         for(var item : orderItems){
             var entity = findItemEntity(item.inventoryItemId());
@@ -79,10 +89,11 @@ public class InventoryService {
         }
     }
 
+    @Transactional
     public void recoverItems(List<OrderItemEventDTO> orderItems) {
         for(var item : orderItems){
             var entity = findItemEntity(item.inventoryItemId());
-            increaseItemQuantity(entity.getUuid(), entity.getQuantity());
+            increaseItemQuantity(entity.getUuid(), item.quantity());
         }
     }
 }

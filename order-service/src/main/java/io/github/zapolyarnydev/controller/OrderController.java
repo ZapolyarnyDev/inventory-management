@@ -23,7 +23,7 @@ public class OrderController {
     private final OrderMapper orderMapper;
 
     @PostMapping("/place")
-    public ResponseEntity<ApiResponse<?>> placeOrder(@Valid @RequestBody PlaceOrderDTO placeOrderDTO) {
+    public ResponseEntity<ApiResponse<UUID>> placeOrder(@Valid @RequestBody PlaceOrderDTO placeOrderDTO) {
         var entity = orderPlaceService.createOrder(placeOrderDTO.orderItems(), placeOrderDTO.releaseDateTime());
 
         var apiResponse = new ApiResponse<>(true, "Order is being validated", entity.getUuid());

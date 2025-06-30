@@ -16,6 +16,7 @@ public class InventoryItemEntity {
     @Column(name = "id")
     private UUID uuid;
 
+    @Column(unique = true)
     private String name;
 
     private int quantity;
