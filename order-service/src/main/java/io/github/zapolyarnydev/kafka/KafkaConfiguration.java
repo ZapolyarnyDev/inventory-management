@@ -9,7 +9,7 @@ import org.springframework.kafka.config.TopicBuilder;
 public class KafkaConfiguration {
 
     @Bean
-    public NewTopic ordersPlacedTopic(){
+    public NewTopic ordersPlacedTopic() {
         return TopicBuilder.name("orders.placed")
                 .partitions(1)
                 .replicas(1)
@@ -17,7 +17,7 @@ public class KafkaConfiguration {
     }
 
     @Bean
-    public NewTopic ordersCancelTopic(){
+    public NewTopic ordersCancelTopic() {
         return TopicBuilder.name("orders.cancelled")
                 .partitions(1)
                 .replicas(1)

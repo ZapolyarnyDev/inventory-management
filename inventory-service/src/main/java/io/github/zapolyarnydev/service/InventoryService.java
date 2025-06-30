@@ -1,13 +1,12 @@
 package io.github.zapolyarnydev.service;
 
-import io.github.zapolyarnydev.dto.OrderItemDTO;
+import io.github.zapolyarnydev.dto.OrderItemEventDTO;
 import io.github.zapolyarnydev.entity.InventoryItemEntity;
 import io.github.zapolyarnydev.exception.ItemHasNameException;
 import io.github.zapolyarnydev.exception.SmallItemQuantityException;
 import io.github.zapolyarnydev.repository.InventoryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.query.Order;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,7 +64,7 @@ public class InventoryService {
         saveItem(entity);
     }
 
-    public boolean canReserve(List<OrderItemDTO> orderItems){
+    public boolean canReserve(List<OrderItemEventDTO> orderItems) throws EntityNotFoundException {
         for(var item : orderItems){
             var entity = findItemEntity(item.inventoryItemId());
             if(entity.getQuantity() < item.quantity()) return false;
@@ -73,14 +72,14 @@ public class InventoryService {
         return true;
     }
 
-    public void reserveItems(List<OrderItemDTO> orderItems) {
+    public void reserveItems(List<OrderItemEventDTO> orderItems) {
         for(var item : orderItems){
             var entity = findItemEntity(item.inventoryItemId());
             decreaseItemQuantity(entity.getUuid(), item.quantity());
         }
     }
 
-    public void recoverItems(List<OrderItemDTO> orderItems) {
+    public void recoverItems(List<OrderItemEventDTO> orderItems) {
         for(var item : orderItems){
             var entity = findItemEntity(item.inventoryItemId());
             increaseItemQuantity(entity.getUuid(), entity.getQuantity());

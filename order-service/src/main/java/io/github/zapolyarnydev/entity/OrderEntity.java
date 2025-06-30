@@ -1,6 +1,5 @@
 package io.github.zapolyarnydev.entity;
 
-import io.github.zapolyarnydev.dto.OrderItemDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
