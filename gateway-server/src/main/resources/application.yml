@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: inventory-service
+          uri: http://localhost:8256
+          predicates:
+            - Path=/api/inventory/**
+          filters:
+            - StripPrefix=1
+
+        - id: order-service
+          uri: http://localhost:8257
+          predicates:
+            - Path=/api/orders/**
+          filters:
+            - StripPrefix=1
+
+server:
+  port: 8255

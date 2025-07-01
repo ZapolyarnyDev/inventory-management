@@ -1,6 +1,7 @@
 package io.github.zapolyarnydev.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,8 +10,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-@Getter
 @Setter
+@Getter
 @Entity
 @Table(name = "orders")
 @NoArgsConstructor
@@ -41,4 +42,5 @@ public class OrderEntity {
             orderItems.forEach(orderItemEntity -> orderItemEntity.setOrder(this));
         }
     }
+
 }
