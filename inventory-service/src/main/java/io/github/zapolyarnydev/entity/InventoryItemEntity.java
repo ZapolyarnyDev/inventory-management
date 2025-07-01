@@ -9,6 +9,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "inventory_items")
+@NoArgsConstructor
 public class InventoryItemEntity {
 
     @Id
