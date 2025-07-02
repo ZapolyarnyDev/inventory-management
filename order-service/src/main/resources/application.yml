@@ -12,6 +12,9 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
   kafka:
     bootstrap-servers: localhost:29092
     producer:

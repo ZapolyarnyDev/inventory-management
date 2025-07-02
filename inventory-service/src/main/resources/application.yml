@@ -12,6 +12,9 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
   kafka:
     bootstrap-servers: localhost:29092
     producer:
@@ -25,7 +28,7 @@ spring:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
-        spring.json.trusted.packages: "io.github.zapolyarnydev.event"
+        spring.json.trusted.packages: "io.github.zapolyarnydev.event.*"
 
 
 server:
