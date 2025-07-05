@@ -6,7 +6,7 @@ import io.github.zapolyarnydev.inventoryservice.dto.ItemQuantityReduceDTO;
 import io.github.zapolyarnydev.inventoryservice.dto.ItemReplenishDTO;
 import io.github.zapolyarnydev.inventoryservice.dto.RegisterItemDTO;
 import io.github.zapolyarnydev.inventoryservice.dto.mapper.InventoryItemEntityMapper;
-import io.github.zapolyarnydev.inventoryservice.orderservice.service.InventoryService;
+import io.github.zapolyarnydev.orderservice.service.InventoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

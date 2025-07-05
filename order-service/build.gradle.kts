@@ -4,7 +4,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.7"
 }
 
-group = "io.github.zapolyarnydev.inventoryservice.orderservice"
+group = "io.github.zapolyarnydev.orderservice"
 version = "0.0.1-SNAPSHOT"
 
 repositories {

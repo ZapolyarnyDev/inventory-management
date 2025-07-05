@@ -1,10 +1,10 @@
 package io.github.zapolyarnydev.inventoryservice.listener;
 
-import io.github.zapolyarnydev.dto.OrderItemEventDTO;
-import io.github.zapolyarnydev.event.inventory.OrderStatusResponseEvent;
-import io.github.zapolyarnydev.event.order.OrderCancelEvent;
-import io.github.zapolyarnydev.event.order.OrderPlacedEvent;
-import io.github.zapolyarnydev.inventoryservice.orderservice.service.InventoryService;
+import io.github.zapolyarnydev.kafkaevents.dto.OrderItemEventDTO;
+import io.github.zapolyarnydev.kafkaevents.event.inventory.OrderStatusResponseEvent;
+import io.github.zapolyarnydev.kafkaevents.event.order.OrderCancelEvent;
+import io.github.zapolyarnydev.kafkaevents.event.order.OrderPlacedEvent;
+import io.github.zapolyarnydev.orderservice.service.InventoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
