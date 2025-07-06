@@ -1,4 +1,4 @@
-package io.github.zapolyarnydev.orderservice.repository;
+package io.github.zapolyarnydev.inventoryservice.repository;
 
 import io.github.zapolyarnydev.inventoryservice.entity.InventoryItemEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

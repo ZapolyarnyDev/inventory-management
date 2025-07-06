@@ -33,6 +33,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
+@DisplayName("Работа сервиса создания заказов")
 public class OrderPlaceServiceTest {
 
     @Mock

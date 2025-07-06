@@ -1,10 +1,10 @@
-package io.github.zapolyarnydev.orderservice.service;
+package io.github.zapolyarnydev.inventoryservice.service;
 
 import io.github.zapolyarnydev.kafkaevents.dto.OrderItemEventDTO;
 import io.github.zapolyarnydev.inventoryservice.entity.InventoryItemEntity;
 import io.github.zapolyarnydev.inventoryservice.exception.ItemHasNameException;
 import io.github.zapolyarnydev.inventoryservice.exception.SmallItemQuantityException;
-import io.github.zapolyarnydev.orderservice.repository.InventoryRepository;
+import io.github.zapolyarnydev.inventoryservice.repository.InventoryRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
@@ -84,16 +84,14 @@ public class InventoryService {
     @Transactional
     public void reserveItems(List<OrderItemEventDTO> orderItems) {
         for(var item : orderItems){
-            var entity = findItemEntity(item.inventoryItemId());
-            decreaseItemQuantity(entity.getUuid(), item.quantity());
+            decreaseItemQuantity(item.inventoryItemId(), item.quantity());
         }
     }
 
     @Transactional
     public void recoverItems(List<OrderItemEventDTO> orderItems) {
         for(var item : orderItems){
-            var entity = findItemEntity(item.inventoryItemId());
-            increaseItemQuantity(entity.getUuid(), item.quantity());
+            increaseItemQuantity(item.inventoryItemId(), item.quantity());
         }
     }
 }
