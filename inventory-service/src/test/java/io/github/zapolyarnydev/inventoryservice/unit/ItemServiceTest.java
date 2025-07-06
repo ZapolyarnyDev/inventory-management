@@ -295,7 +295,6 @@ public class ItemServiceTest {
             inventoryService = org.mockito.Mockito.spy(inventoryService);
             when(inventoryRepository.findById(id)).thenReturn(Optional.of(item));
 
-            System.out.println(dto.inventoryItemId());
             inventoryService.recoverItems(List.of(dto));
 
             verify(inventoryService).increaseItemQuantity(id, 3);
