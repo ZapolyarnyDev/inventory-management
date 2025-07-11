@@ -1,6 +1,6 @@
 spring:
   application:
-    name: InventoryService
+    name: inventory-service
   datasource:
     url: ${INV_SERVICE_DATASOURCE_URL}
     username: ${INV_SERVICE_DATASOURCE_USERNAME}
@@ -15,6 +15,9 @@ spring:
   jackson:
     serialization:
       write-dates-as-timestamps: false
+  cloud:
+    discovery:
+      enabled: true
   kafka:
     bootstrap-servers: localhost:29092
     producer:
@@ -33,3 +36,10 @@ spring:
 
 server:
   port: 8256
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
