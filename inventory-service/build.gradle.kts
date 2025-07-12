@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "io.github.zapolyarnydev.inventoryservice"
-version = "0.0.1-SNAPSHOT"
+version = "1.0"
 
 repositories {
     mavenCentral()
@@ -45,6 +45,11 @@ dependencyManagement {
     imports {
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
     }
+}
+
+tasks.bootJar {
+    archiveBaseName.set("inventory-service")
+    archiveVersion.set("1.0")
 }
 
 tasks.test {
