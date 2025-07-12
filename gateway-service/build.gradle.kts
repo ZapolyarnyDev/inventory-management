@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "io.github.zapolyarnydev.gateway"
-version = "0.0.1-SNAPSHOT"
+version = "1.0"
 
 repositories {
     mavenCentral()
@@ -28,6 +28,12 @@ dependencyManagement {
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
     }
 }
+
+tasks.bootJar {
+    archiveBaseName.set("gateway-service")
+    archiveVersion.set("1.0")
+}
+
 
 tasks.test {
     useJUnitPlatform()
