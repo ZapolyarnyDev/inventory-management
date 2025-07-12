@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "io.github.zapolyarnydev.orderservice"
-version = "0.0.1-SNAPSHOT"
+version = "1.0"
 
 repositories {
     mavenCentral()
@@ -43,6 +43,11 @@ dependencyManagement {
     imports {
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
     }
+}
+
+tasks.bootJar {
+    archiveBaseName.set("order-service")
+    archiveVersion.set("1.0")
 }
 
 tasks.test {
