@@ -5,10 +5,12 @@ RUN gradle bootJar
 
 FROM eclipse-temurin:21-jre
 WORKDIR /workspace
-COPY --from=builder /workspace/build/libs/gateway-service-1.0.jar gateway-service.jar
 
+ARG SERVICE_MODULE=gateway-service
 ENV JAVA_OPTS="-Xms512m -Xmx1024m -XX:+UseG1GC"
+
+COPY --from=builder /workspace/build/libs/${SERVICE_MODULE}-1.0.jar ${SERVICE_MODULE}.jar
 
 EXPOSE 8255
 
-CMD ["sh", "-c", "java $JAVA_OPTS -jar gateway-service.jar"]
+CMD ["sh", "-c", "java $JAVA_OPTS -jar ${SERVICE_MODULE}.jar"]
