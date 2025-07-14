@@ -1,0 +1,152 @@
+services:
+  discovery-server:
+    build:
+      context: ./discovery-server
+      dockerfile: ./Dockerfile
+      args:
+        SERVICE_MODULE: discovery-server
+    container_name: discovery-server
+    ports:
+      - "8761:8761"
+    networks:
+      - invmanagement-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - JAVA_OPTS=-Xms512m -Xmx1024m -XX:+UseG1GC
+
+  gateway-service:
+    build:
+      context: ./gateway-service
+      dockerfile: ./Dockerfile
+      args:
+        SERVICE_MODULE: gateway-service
+    container_name: gateway-service
+    depends_on:
+      - discovery-server
+    ports:
+      - "8255:8255"
+    networks:
+      - invmanagement-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - JAVA_OPTS=-Xms512m -Xmx1024m -XX:+UseG1GC
+
+  inventory-service:
+    build:
+      context: .
+      dockerfile: ./inventory-service/Dockerfile
+      args:
+        SERVICE_MODULE: inventory-service
+    container_name: inventory-service
+    depends_on:
+      - discovery-server
+      - kafka-server-1
+      - inventory-service-database
+    ports:
+      - "8256:8256"
+    networks:
+      - invmanagement-network
+      - kafka-events-network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://inventory-service-database:5432/${INVENTORY_SERVICE_DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${INVENTORY_SERVICE_DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${INVENTORY_SERVICE_DB_PASSWORD}
+      SPRING_PROFILES_ACTIVE: docker
+      JAVA_OPTS: -Xms512m -Xmx1024m -XX:+UseG1GC
+
+  order-service:
+    build:
+      context: .
+      dockerfile: ./order-service/Dockerfile
+      args:
+        SERVICE_MODULE: order-service
+    container_name: order-service
+    depends_on:
+      - discovery-server
+      - kafka-server-1
+      - order-service-database
+    ports:
+      - "8257:8257"
+    networks:
+      - invmanagement-network
+      - kafka-events-network
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://order-service-database:5432/${ORDER_SERVICE_DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${ORDER_SERVICE_DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${ORDER_SERVICE_DB_PASSWORD}
+      SPRING_PROFILES_ACTIVE: docker
+      JAVA_OPTS: -Xms512m -Xmx1024m -XX:+UseG1GC
+
+  inventory-service-database:
+    image: postgres:15
+    container_name: inventory-service-database
+    environment:
+      POSTGRES_DB: ${INVENTORY_SERVICE_DB_NAME}
+      POSTGRES_USER: ${INVENTORY_SERVICE_DB_USER}
+      POSTGRES_PASSWORD: ${INVENTORY_SERVICE_DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    networks:
+      - invmanagement-network
+    volumes:
+      - inventory-data:/var/lib/postgresql/data
+
+  order-service-database:
+    image: postgres:15
+    container_name: order-service-database
+    environment:
+      POSTGRES_DB: ${ORDER_SERVICE_DB_NAME}
+      POSTGRES_USER: ${ORDER_SERVICE_DB_USER}
+      POSTGRES_PASSWORD: ${ORDER_SERVICE_DB_PASSWORD}
+    ports:
+      - "5433:5432"
+    networks:
+      - invmanagement-network
+    volumes:
+      - order-data:/var/lib/postgresql/data
+
+  kafka-server-1:
+    image: bitnami/kafka:latest
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      - KAFKA_CFG_NODE_ID=1
+      - KAFKA_ENABLE_KRAFT=yes
+      - KAFKA_CFG_PROCESS_ROLES=broker,controller
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka-server-1:9093
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka-server-1:9092,PLAINTEXT_HOST://kafka-server-1:29092
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://0.0.0.0:9092,PLAINTEXT_HOST://0.0.0.0:29092,CONTROLLER://0.0.0.0:9093
+      - KAFKA_KRAFT_CLUSTER_ID=3I3sm3POR7O8oczdFPa1UA
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    networks:
+      - kafka-network
+      - kafka-events-network
+
+  ui-kafka:
+    container_name: ui-kafka
+    image: provectuslabs/kafka-ui:v0.4.0
+    depends_on:
+      - kafka-server-1
+    ports:
+      - "9149:9149"
+    environment:
+      - SERVER_PORT=9149
+      - KAFKA_CLUSTERS_0_BOOTSTRAP_SERVERS=kafka-server-1:9092
+      - KAFKA_CLUSTERS_0_NAME=kraft
+    networks:
+      - kafka-network
+
+networks:
+  kafka-events-network:
+    driver: bridge
+  kafka-network:
+    driver: bridge
+  invmanagement-network:
+    driver: bridge
+
+volumes:
+  inventory-data:
+  order-data:

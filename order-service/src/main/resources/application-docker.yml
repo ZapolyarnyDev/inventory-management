@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: order-service
+  datasource:
+    url: ${ORDER_SERVICE_DATASOURCE_URL}
+    username: ${ORDER_SERVICE_DATASOURCE_USERNAME}
+    password: ${ORDER_SERVICE_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+  cloud:
+    discovery:
+      enabled: true
+  kafka:
+    bootstrap-servers: kafka-server-1:29092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      retries: 3
+    consumer:
+      group-id: order-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "io.github.zapolyarnydev.kafkaevents.event.*"
+
+
+server:
+  port: 8257
+
+eureka:
+  client:
+    service-url:
+      register-with-eureka: true
+      fetch-registry: true
+      defaultZone: http://discovery-server:8761/eureka/

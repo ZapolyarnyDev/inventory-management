@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: inventory-service
+  datasource:
+    url: ${INV_SERVICE_DATASOURCE_URL}
+    username: ${INV_SERVICE_DATASOURCE_USERNAME}
+    password: ${INV_SERVICE_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+  cloud:
+    discovery:
+      enabled: true
+  kafka:
+    bootstrap-servers: kafka-server-1:29092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      retries: 3
+    consumer:
+      group-id: inventory-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "io.github.zapolyarnydev.kafkaevents.event.*"
+
+
+server:
+  port: 8256
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-server:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
