@@ -9,6 +9,7 @@ import io.github.zapolyarnydev.kafkaevents.dto.OrderItemEventDTO;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -32,6 +33,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Работа сервиса, взаимодействующего с товарами на складе")
+@Tag("unit")
 public class ItemServiceTest {
 
     @Mock

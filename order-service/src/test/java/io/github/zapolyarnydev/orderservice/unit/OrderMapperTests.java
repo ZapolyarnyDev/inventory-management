@@ -7,6 +7,7 @@ import io.github.zapolyarnydev.orderservice.dto.mapper.OrderMapper;
 import io.github.zapolyarnydev.orderservice.entity.OrderEntity;
 import io.github.zapolyarnydev.orderservice.entity.OrderItemEntity;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -21,6 +22,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Тестирование маппинга сущностей связанных с заказами")
+@Tag("unit")
 public class OrderMapperTests {
 
     private final OrderMapper orderMapper = Mappers.getMapper(OrderMapper.class);

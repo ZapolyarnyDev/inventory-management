@@ -23,6 +23,50 @@ repositories {
 	mavenCentral()
 }
 
+configure(listOf(project(":order-service"), project(":inventory-service"))) {
+	tasks.register<Test>("unitTest") {
+		description = "Runs unit tests"
+		group = "verification"
+
+		testClassesDirs = sourceSets.test.get().output.classesDirs
+		classpath = sourceSets.test.get().runtimeClasspath
+
+		useJUnitPlatform {
+			includeTags("unit")
+		}
+	}
+
+	tasks.register<Test>("integrationTest") {
+		description = "Runs integration tests"
+		group = "verification"
+
+		testClassesDirs = sourceSets.test.get().output.classesDirs
+		classpath = sourceSets.test.get().runtimeClasspath
+
+		useJUnitPlatform {
+			includeTags("integration")
+		}
+	}
+}
+
+tasks.register("unitTestAll") {
+	group = "verification"
+	description = "Runs unit tests in all subprojects"
+	dependsOn(
+		listOf(project(":order-service"), project(":inventory-service"))
+			.map { it.tasks.named("unitTest") }
+	)
+}
+
+tasks.register("integrationTestAll") {
+	group = "verification"
+	description = "Runs integration tests in all subprojects"
+	dependsOn(
+		listOf(project(":order-service"))
+			.map { it.tasks.named("integrationTest") }
+	)
+}
+
 tasks.withType<Test> {
 	useJUnitPlatform()
 }

@@ -4,6 +4,7 @@ import io.github.zapolyarnydev.inventoryservice.dto.ItemEntityDTO;
 import io.github.zapolyarnydev.inventoryservice.dto.mapper.InventoryItemEntityMapper;
 import io.github.zapolyarnydev.inventoryservice.entity.InventoryItemEntity;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -16,6 +17,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Тестирование маппинга сущностей предметов инвентаря")
+@Tag("unit")
 public class InventoryItemEntityMapperTests {
 
     private final InventoryItemEntityMapper itemEntityMapper = Mappers.getMapper(InventoryItemEntityMapper.class);

@@ -1,0 +1,40 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgresql:15:///orders_test?TC_TMPFS=/testtmpfs:rw
+    username: test
+    password: test
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+
+  kafka:
+    bootstrap-servers: 9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+    consumer:
+      group-id: order-service-test
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "io.github.zapolyarnydev.kafkaevents.event.*"
+
+  cloud:
+    discovery:
+      enabled: false
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+logging:
+  level:
+    root: WARN
+    org.springframework: INFO
+
+eureka:
+  client:
+    enabled: false

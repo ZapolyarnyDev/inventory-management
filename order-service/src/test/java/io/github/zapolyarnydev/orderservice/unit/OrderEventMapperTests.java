@@ -6,6 +6,7 @@ import io.github.zapolyarnydev.orderservice.dto.mapper.OrderEventMapper;
 import io.github.zapolyarnydev.orderservice.entity.OrderItemEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.mapstruct.factory.Mappers;
 
@@ -16,6 +17,7 @@ import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Тестирование маппинга DTO предметов в DTO для событий в kafka")
+@Tag("unit")
 public class OrderEventMapperTests {
 
     private final OrderEventMapper orderEventMapper = Mappers.getMapper(OrderEventMapper.class);
