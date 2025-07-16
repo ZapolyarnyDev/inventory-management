@@ -62,7 +62,7 @@ tasks.register("integrationTestAll") {
 	group = "verification"
 	description = "Runs integration tests in all subprojects"
 	dependsOn(
-		listOf(project(":order-service"))
+		listOf(project(":order-service"), project(":inventory-service"))
 			.map { it.tasks.named("integrationTest") }
 	)
 }

@@ -1,39 +1,44 @@
 spring:
+  application:
+    name: inventory-service
   datasource:
     url: jdbc:tc:postgresql:15:///orders_test?TC_TMPFS=/testtmpfs:rw
     username: test
     password: test
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
-
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+  cloud:
+    discovery:
+      enabled: false
   kafka:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
       acks: all
+      retries: 3
     consumer:
-      group-id: order-service-test
+      group-id: inventory-group
+      auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       properties:
         spring.json.trusted.packages: "io.github.zapolyarnydev.kafkaevents.event.*"
 
-  cloud:
-    discovery:
-      enabled: false
 
-  jpa:
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    properties:
-      hibernate:
-        format_sql: true
-
-logging:
-  level:
-    root: WARN
-    org.springframework: INFO
+server:
+  port: 8256
 
 eureka:
   client:
-    enabled: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true

@@ -1,4 +1,4 @@
-name: Unit tests for all microservices
+name: Unit & integration tests for all microservices
 
 on:
   push:

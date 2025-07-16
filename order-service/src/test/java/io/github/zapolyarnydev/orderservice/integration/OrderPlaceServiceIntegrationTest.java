@@ -13,7 +13,6 @@ import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
-import org.apache.kafka.common.TopicPartition;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -24,7 +23,6 @@ import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.KafkaAdmin;
-import org.springframework.kafka.test.context.EmbeddedKafka;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
@@ -39,7 +37,6 @@ import org.testcontainers.utility.DockerImageName;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -47,7 +44,6 @@ import java.util.stream.StreamSupport;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.awaitility.Awaitility.await;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -58,14 +54,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DirtiesContext
 @Testcontainers
 @AutoConfigureMockMvc
-@DisplayName("Интеграционный тест публикации заказа")
+@DisplayName("Процесс публикаци заказа")
 @Tag("integration")
 public class OrderPlaceServiceIntegrationTest {
 
     @Container
     private static final ConfluentKafkaContainer kafkaContainer = new ConfluentKafkaContainer(
             DockerImageName.parse("confluentinc/cp-kafka:7.8.0")
-                    .asCompatibleSubstituteFor("apache/kafka"));
+                    .asCompatibleSubstituteFor("apache/kafka")
+    );
 
     @Autowired
     private MockMvc mockMvc;
@@ -83,7 +80,6 @@ public class OrderPlaceServiceIntegrationTest {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
 
     @DynamicPropertySource
     static void kafkaProperties(DynamicPropertyRegistry registry) {
