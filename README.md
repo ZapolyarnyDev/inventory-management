@@ -6,6 +6,11 @@
   </a>
 </p>
 
+## 🌐 Language
+
+- [English](README.md)
+- [Русский](README.ru.md)
+
 ## About the app
 A microservices-based application built with Spring Boot and Kafka for inventory management and order processing.
 
