@@ -40,6 +40,6 @@ The system consists of two main services: Inventory and Orders.
 
 ## License
 
-Copyright (c) 2025 Zapolyarny
+Copyright (c) 2025 ZapolyarnyDev
 
 This project is licensed under the MIT License – see the LICENSE file for details.

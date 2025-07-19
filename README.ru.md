@@ -40,6 +40,6 @@
 
 ## Лицензия
 
-Copyright (c) 2025 Zapolyarny
+Copyright (c) 2025 ZapolyarnyDev
 
 Проект распространяется под лицензией MIT — см. файл [LICENSE](LICENSE) для подробностей.
